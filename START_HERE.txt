@@ -1,0 +1,67 @@
+╔══════════════════════════════════════════════════════════════╗
+║                  SCHOOL ERP - START HERE                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+🚀 QUICK START (Choose One):
+
+┌──────────────────────────────────────────────────────────────┐
+│  OPTION 1: ONE-CLICK START (EASIEST)                         │
+└──────────────────────────────────────────────────────────────┘
+
+   Double-click: FIX_AND_START.bat
+   
+   ✓ Installs everything
+   ✓ Seeds database
+   ✓ Starts servers
+   ✓ Opens in browser
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  OPTION 2: MANUAL START                                      │
+└──────────────────────────────────────────────────────────────┘
+
+   1. Check MongoDB:
+      > CHECK_MONGODB.bat
+   
+   2. Start Backend:
+      > START_BACKEND.bat
+   
+   3. Start Frontend:
+      > START_FRONTEND.bat
+   
+   4. Open: http://localhost:3000
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  LOGIN CREDENTIALS                                           │
+└──────────────────────────────────────────────────────────────┘
+
+   Admin:   admin@school.com   / admin123
+   Staff:   staff@school.com   / staff123
+   Student: student@school.com / student123
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  TROUBLESHOOTING                                             │
+└──────────────────────────────────────────────────────────────┘
+
+   Login not working? Read:
+   
+   → LOGIN_FIX.md (Quick fixes)
+   → TROUBLESHOOTING.md (Detailed guide)
+   → QUICKSTART.md (Full setup)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  DOCUMENTATION                                               │
+└──────────────────────────────────────────────────────────────┘
+
+   📖 README.md - Complete documentation
+   📖 INDEX.md - Master index
+   📖 FEATURES.md - All features
+   📖 API_DOCUMENTATION.md - API reference
+
+
+╔══════════════════════════════════════════════════════════════╗
+║  NEED HELP? Run: FIX_AND_START.bat                          ║
+╚══════════════════════════════════════════════════════════════╝

@@ -1,0 +1,40 @@
+╔══════════════════════════════════════════════════════════════╗
+║           SCHOOL ERP - HOW TO FIX LOGIN ERROR               ║
+╚══════════════════════════════════════════════════════════════╝
+
+ERROR: "Cannot connect to server"
+CAUSE: Backend is not running
+
+═══════════════════════════════════════════════════════════════
+
+SOLUTION (2 STEPS):
+
+1. Double-click: SIMPLE_FIX.bat
+   (This starts the backend server)
+   
+   Keep that window OPEN!
+
+2. Double-click: START_FRONTEND_ONLY.bat
+   (This starts the frontend)
+   
+   Keep that window OPEN too!
+
+3. Browser will open automatically at:
+   http://localhost:3000
+
+═══════════════════════════════════════════════════════════════
+
+LOGIN CREDENTIALS:
+
+Admin:   admin@school.com   / admin123
+Staff:   staff@school.com   / staff123
+Student: student@school.com / student123
+
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT:
+- Keep BOTH windows open while using the app
+- If MongoDB error appears, install MongoDB first:
+  https://www.mongodb.com/try/download/community
+
+═══════════════════════════════════════════════════════════════

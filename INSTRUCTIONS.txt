@@ -1,0 +1,50 @@
+╔══════════════════════════════════════════════════════════════╗
+║     FIX: "Cannot connect to server" Error                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+PROBLEM: Backend server is not running
+
+SOLUTION: You need to start the backend server first!
+
+═══════════════════════════════════════════════════════════════
+
+STEP 1: Install MongoDB
+
+MongoDB is required. Download and install from:
+https://www.mongodb.com/try/download/community
+
+Choose: "Complete" installation
+Select: "Install as a Service"
+
+═══════════════════════════════════════════════════════════════
+
+STEP 2: Open TWO Command Prompts
+
+Command Prompt 1 (Backend):
+  cd d:\dummy\school-erp\backend
+  npm run dev
+
+Command Prompt 2 (Frontend):
+  cd d:\dummy\school-erp\frontend
+  npm run dev
+
+═══════════════════════════════════════════════════════════════
+
+STEP 3: Login
+
+Open browser: http://localhost:3000
+
+Credentials:
+  Admin:   admin@school.com / admin123
+  Staff:   staff@school.com / staff123
+  Student: student@school.com / student123
+
+═══════════════════════════════════════════════════════════════
+
+QUICK START (After MongoDB is installed):
+
+Just double-click: START_EVERYTHING.bat
+
+This will start both servers automatically!
+
+═══════════════════════════════════════════════════════════════
