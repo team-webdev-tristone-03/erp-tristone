@@ -12,9 +12,13 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       authAPI.getMe()
         .then(res => setUser(res.data))
-        .catch(() => localStorage.removeItem('token'))
+        .catch(() => {
+          localStorage.removeItem('token');
+          setUser(null);
+        })
         .finally(() => setLoading(false));
     } else {
+      setUser(null);
       setLoading(false);
     }
   }, []);
@@ -29,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
+    window.location.href = '/login';
   };
 
   return (

@@ -10,7 +10,19 @@ exports.createTimetable = async (req, res) => {
     }
     
     const timetable = await Timetable.create(req.body);
-    const populated = await Timetable.findById(timetable._id).populate('schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher');
+    const populated = await Timetable.findById(timetable._id).populate({
+      path: 'schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher',
+      select: 'name subject'
+    });
+    
+    // Emit real-time update
+    if (req.io) {
+      req.io.emit('timetableUpdate', {
+        type: 'create',
+        data: populated
+      });
+    }
+    
     res.status(201).json(populated);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -22,10 +34,19 @@ exports.getTimetable = async (req, res) => {
     const { class: className, section } = req.query;
     let query = {};
     
-    if (className) query.class = className;
-    if (section) query.section = section;
+    // If user is a student, get their class and section
+    if (req.user && req.user.role === 'student') {
+      query.class = req.user.class;
+      query.section = req.user.section;
+    } else {
+      if (className) query.class = className;
+      if (section) query.section = section;
+    }
 
-    const timetable = await Timetable.find(query).populate('schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher');
+    const timetable = await Timetable.find(query).populate({
+      path: 'schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher',
+      select: 'name subject'
+    });
     res.json(timetable);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -34,8 +55,11 @@ exports.getTimetable = async (req, res) => {
 
 exports.getStaffTimetable = async (req, res) => {
   try {
-    const staffId = req.params.staffId;
-    const timetables = await Timetable.find().populate('schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher');
+    const staffId = req.user && req.user.role === 'staff' ? req.user._id : req.params.staffId;
+    const timetables = await Timetable.find().populate({
+      path: 'schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher',
+      select: 'name subject'
+    });
     
     const staffSchedule = {
       Monday: [],
@@ -45,20 +69,29 @@ exports.getStaffTimetable = async (req, res) => {
       Friday: []
     };
     
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    
     timetables.forEach(timetable => {
-      ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].forEach(day => {
-        timetable.schedule[day].forEach(period => {
-          if (period.teacher && period.teacher._id.toString() === staffId) {
-            staffSchedule[day].push({
-              period: period.period,
-              time: period.time,
-              subject: period.subject,
-              class: timetable.class,
-              section: timetable.section
-            });
-          }
-        });
+      days.forEach(day => {
+        if (timetable.schedule[day]) {
+          timetable.schedule[day].forEach(period => {
+            if (period.teacher && period.teacher.toString() === staffId) {
+              staffSchedule[day].push({
+                time: period.time,
+                subject: period.subject,
+                class: timetable.class,
+                section: timetable.section,
+                period: period.period
+              });
+            }
+          });
+        }
       });
+    });
+    
+    // Sort by time for each day
+    days.forEach(day => {
+      staffSchedule[day].sort((a, b) => a.period - b.period);
     });
     
     res.json(staffSchedule);
@@ -69,7 +102,27 @@ exports.getStaffTimetable = async (req, res) => {
 
 exports.updateTimetable = async (req, res) => {
   try {
-    const timetable = await Timetable.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher');
+    const timetable = await Timetable.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    ).populate({
+      path: 'schedule.Monday.teacher schedule.Tuesday.teacher schedule.Wednesday.teacher schedule.Thursday.teacher schedule.Friday.teacher',
+      select: 'name subject'
+    });
+    
+    if (!timetable) {
+      return res.status(404).json({ message: 'Timetable not found' });
+    }
+    
+    // Emit real-time update
+    if (req.io) {
+      req.io.emit('timetableUpdate', {
+        type: 'update',
+        data: timetable
+      });
+    }
+    
     res.json(timetable);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -87,9 +140,29 @@ exports.getClasses = async (req, res) => {
 
 exports.getStaffList = async (req, res) => {
   try {
-    const staff = await User.find({ role: 'staff' }).select('name subject');
+    const staff = await User.find({ role: 'staff' }).select('name subject phone email');
     console.log('Staff list:', staff);
     res.json(staff);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteTimetable = async (req, res) => {
+  try {
+    const timetable = await Timetable.findByIdAndDelete(req.params.id);
+    
+    if (!timetable) {
+      return res.status(404).json({ message: 'Timetable not found' });
+    }
+    
+    // Emit real-time update
+    req.io.emit('timetableUpdate', {
+      type: 'delete',
+      data: { _id: req.params.id }
+    });
+    
+    res.json({ message: 'Timetable deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

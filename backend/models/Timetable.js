@@ -8,31 +8,36 @@ const timetableSchema = new mongoose.Schema({
       period: Number,
       time: String,
       subject: String,
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      isBreak: { type: Boolean, default: false }
     }],
     Tuesday: [{
       period: Number,
       time: String,
       subject: String,
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      isBreak: { type: Boolean, default: false }
     }],
     Wednesday: [{
       period: Number,
       time: String,
       subject: String,
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      isBreak: { type: Boolean, default: false }
     }],
     Thursday: [{
       period: Number,
       time: String,
       subject: String,
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      isBreak: { type: Boolean, default: false }
     }],
     Friday: [{
       period: Number,
       time: String,
       subject: String,
-      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+      teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      isBreak: { type: Boolean, default: false }
     }]
   }
 }, { timestamps: true });

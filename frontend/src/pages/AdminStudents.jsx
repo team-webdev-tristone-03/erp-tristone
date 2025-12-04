@@ -9,6 +9,7 @@ import { userAPI } from '../services/api';
 const AdminStudents = () => {
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState({ class: '', section: '' });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
   const [formData, setFormData] = useState({
@@ -17,10 +18,13 @@ const AdminStudents = () => {
 
   useEffect(() => {
     fetchStudents();
-  }, [search]);
+  }, [search, filters]);
 
   const fetchStudents = () => {
-    userAPI.getUsers({ role: 'student', search }).then(res => setStudents(res.data));
+    const params = { role: 'student', search };
+    if (filters.class) params.class = filters.class;
+    if (filters.section) params.section = filters.section;
+    userAPI.getUsers(params).then(res => setStudents(res.data));
   };
 
   const handleSubmit = async (e) => {
@@ -81,15 +85,57 @@ const AdminStudents = () => {
             </button>
           </div>
 
-          <div className="mb-4 relative">
-            <Search className="absolute left-3 top-3 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Search students..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          {/* Filters */}
+          <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+            <h3 className="font-semibold mb-3">Filters</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  placeholder="Search students..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg"
+                />
+              </div>
+              <select
+                value={filters.class}
+                onChange={(e) => setFilters({ ...filters, class: e.target.value })}
+                className="px-3 py-2 border rounded-lg"
+              >
+                <option value="">All Classes</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
+              </select>
+              <select
+                value={filters.section}
+                onChange={(e) => setFilters({ ...filters, section: e.target.value })}
+                className="px-3 py-2 border rounded-lg"
+              >
+                <option value="">All Sections</option>
+                <option value="A">Section A</option>
+                <option value="B">Section B</option>
+              </select>
+              <button
+                onClick={() => fetchStudents()}
+                className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              >
+                Apply Filters
+              </button>
+              <button
+                onClick={() => {
+                  setFilters({ class: '', section: '' });
+                  setSearch('');
+                }}
+                className="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+              >
+                Clear Filters
+              </button>
+            </div>
           </div>
 
           <div className="bg-white rounded-lg shadow-md">

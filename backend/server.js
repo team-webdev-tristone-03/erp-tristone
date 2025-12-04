@@ -29,6 +29,7 @@ app.use('/api/marks', require('./routes/markRoutes'));
 app.use('/api/materials', require('./routes/materialRoutes'));
 app.use('/api/announcements', require('./routes/announcementRoutes'));
 app.use('/api/timetable', require('./routes/timetableRoutes'));
+app.use('/api/staff-attendance', require('./routes/staffAttendanceRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 
 io.on('connection', (socket) => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'http://localhost:8000/api'
 });
 
 API.interceptors.request.use((config) => {
@@ -43,7 +43,8 @@ export const markAPI = {
   getMarks: (params) => API.get('/marks', { params }),
   createMark: (data) => API.post('/marks', data),
   updateMark: (id, data) => API.put(`/marks/${id}`, data),
-  deleteMark: (id) => API.delete(`/marks/${id}`)
+  deleteMark: (id) => API.delete(`/marks/${id}`),
+  getClassesAndSections: () => API.get('/marks/classes-sections')
 };
 
 export const materialAPI = {

@@ -1,4 +1,5 @@
 const Mark = require('../models/Mark');
+const User = require('../models/User');
 
 exports.createMark = async (req, res) => {
   try {
@@ -14,14 +15,41 @@ exports.createMark = async (req, res) => {
 
 exports.getMarks = async (req, res) => {
   try {
-    const { student, subject } = req.query;
+    const { student, subject, class: className, section } = req.query;
     let query = {};
     
     if (student) query.student = student;
     if (subject) query.subject = subject;
 
-    const marks = await Mark.find(query).populate(['student', 'subject']).sort('-createdAt');
-    res.json(marks);
+    const marks = await Mark.find(query).populate([
+      { path: 'student', select: 'name class section' },
+      { path: 'subject', select: 'name' }
+    ]).sort('-createdAt');
+
+    // Filter by class and section after population
+    let filteredMarks = marks;
+    if (className) {
+      filteredMarks = filteredMarks.filter(mark => mark.student?.class === className);
+    }
+    if (section) {
+      filteredMarks = filteredMarks.filter(mark => mark.student?.section === section);
+    }
+
+    res.json(filteredMarks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Get unique classes and sections
+exports.getClassesAndSections = async (req, res) => {
+  try {
+    const students = await require('../models/User').find({ role: 'student' }, 'class section');
+    
+    const classes = [...new Set(students.map(s => s.class).filter(Boolean))];
+    const sections = [...new Set(students.map(s => s.section).filter(Boolean))];
+    
+    res.json({ classes, sections });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

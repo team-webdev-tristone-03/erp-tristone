@@ -10,7 +10,7 @@ const AdminStaff = () => {
   const [staff, setStaff] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', phone: '', subject: '' });
 
   useEffect(() => {
     fetchStaff();
@@ -44,7 +44,7 @@ const AdminStaff = () => {
   };
 
   const resetForm = () => {
-    setFormData({ name: '', email: '', password: '', phone: '' });
+    setFormData({ name: '', email: '', password: '', phone: '', subject: '' });
     setEditingStaff(null);
   };
 
@@ -57,7 +57,8 @@ const AdminStaff = () => {
   const columns = [
     { header: 'Name', accessor: 'name' },
     { header: 'Email', accessor: 'email' },
-    { header: 'Phone', accessor: 'phone' }
+    { header: 'Phone', accessor: 'phone' },
+    { header: 'Subject', accessor: 'subject' }
   ];
 
   return (
@@ -126,6 +127,13 @@ const AdminStaff = () => {
                 placeholder="Phone"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="w-full mb-3 px-4 py-2 border rounded-lg"
+              />
+              <input
+                type="text"
+                placeholder="Subject (e.g., Mathematics, English)"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 className="w-full mb-3 px-4 py-2 border rounded-lg"
               />
               <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">

@@ -1,5 +1,5 @@
 const express = require('express');
-const { createTimetable, getTimetable, updateTimetable, getStaffTimetable, getClasses, getStaffList } = require('../controllers/timetableController');
+const { createTimetable, getTimetable, updateTimetable, deleteTimetable, getStaffTimetable, getClasses, getStaffList } = require('../controllers/timetableController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -11,9 +11,11 @@ router.route('/')
   .post(authorize('admin'), createTimetable);
 
 router.route('/:id')
-  .put(authorize('admin'), updateTimetable);
+  .put(authorize('admin'), updateTimetable)
+  .delete(authorize('admin'), deleteTimetable);
 
 router.get('/staff/:staffId', getStaffTimetable);
+router.get('/staff/my-schedule', authorize('staff'), getStaffTimetable);
 router.get('/classes/list', getClasses);
 router.get('/staff/list', getStaffList);
 
