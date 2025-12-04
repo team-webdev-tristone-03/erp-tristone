@@ -18,7 +18,9 @@ exports.getAnnouncements = async (req, res) => {
       query.$or = [{ targetRole }, { targetRole: 'all' }];
     }
 
-    const announcements = await Announcement.find(query).populate('createdBy').sort('-createdAt');
+    const announcements = await Announcement.find(query)
+      .populate('createdBy', 'name role')
+      .sort('-createdAt');
     res.json(announcements);
   } catch (error) {
     res.status(500).json({ message: error.message });

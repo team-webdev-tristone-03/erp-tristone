@@ -1,5 +1,5 @@
 const express = require('express');
-const { createMaterial, getMaterials, deleteMaterial } = require('../controllers/materialController');
+const { createMaterial, getMaterials, deleteMaterial, markMaterialAsViewed, getNewMaterialsCount } = require('../controllers/materialController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -9,6 +9,12 @@ router.use(protect);
 router.route('/')
   .get(getMaterials)
   .post(authorize('admin', 'staff'), createMaterial);
+
+router.route('/mark-viewed')
+  .post(markMaterialAsViewed);
+
+router.route('/new-count')
+  .get(getNewMaterialsCount);
 
 router.route('/:id')
   .delete(authorize('admin', 'staff'), deleteMaterial);
