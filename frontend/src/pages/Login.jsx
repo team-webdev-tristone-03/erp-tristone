@@ -26,6 +26,17 @@ const Login = () => {
     }
   };
 
+  const fillDemoCredentials = (demoRole) => {
+    const credentials = {
+      admin: { email: 'admin@school.com', password: 'admin123' },
+      staff: { email: 'staff@school.com', password: 'staff123' },
+      student: { email: 'student@school.com', password: 'student123' }
+    };
+    setRole(demoRole);
+    setEmail(credentials[demoRole].email);
+    setPassword(credentials[demoRole].password);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
@@ -79,11 +90,31 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-6 p-4 bg-gray-100 rounded text-xs">
-          <p className="font-semibold mb-2">Demo Credentials:</p>
-          <p>Admin: admin@school.com / admin123</p>
-          <p>Staff: staff@school.com / staff123</p>
-          <p>Student: student@school.com / student123</p>
+        <div className="mt-6 p-4 bg-gray-100 rounded">
+          <p className="font-semibold mb-3 text-sm">Use Demo Credentials:</p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('admin')}
+              className="flex-1 py-2 px-3 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
+            >
+              Admin
+            </button>
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('staff')}
+              className="flex-1 py-2 px-3 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
+            >
+              Staff
+            </button>
+            <button
+              type="button"
+              onClick={() => fillDemoCredentials('student')}
+              className="flex-1 py-2 px-3 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition"
+            >
+              Student
+            </button>
+          </div>
         </div>
 
         <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-xs">
