@@ -2,6 +2,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Subject = require('./models/Subject');
+const Class = require('./models/Class');
 const Attendance = require('./models/Attendance');
 const Mark = require('./models/Mark');
 const Material = require('./models/Material');
@@ -20,6 +21,7 @@ const seedData = async () => {
     // Clear existing data
     await User.deleteMany({});
     await Subject.deleteMany({});
+    await Class.deleteMany({});
     await Attendance.deleteMany({});
     await Mark.deleteMany({});
     await Material.deleteMany({});
@@ -71,6 +73,15 @@ const seedData = async () => {
       students.push(student);
     }
 
+    // Create Classes
+    const classes = await Class.insertMany([
+      { className: '10', classCode: 'CLS10A', section: 'A', classTeacher: staff._id },
+      { className: '10', classCode: 'CLS10B', section: 'B', classTeacher: staff._id },
+      { className: '11', classCode: 'CLS11A', section: 'A', classTeacher: staff._id },
+      { className: '11', classCode: 'CLS11B', section: 'B', classTeacher: staff._id },
+      { className: '12', classCode: 'CLS12A', section: 'A', classTeacher: staff._id }
+    ]);
+
     // Create Subjects
     const subjects = await Subject.insertMany([
       { name: 'Mathematics', code: 'MATH101', class: '10', teacher: staff._id },
@@ -107,20 +118,48 @@ const seedData = async () => {
     // Create Materials
     await Material.insertMany([
       {
-        title: 'Mathematics Chapter 1',
-        description: 'Introduction to Algebra',
-        fileUrl: 'https://example.com/math-ch1.pdf',
+        title: 'Mathematics Chapter 1 - Algebra',
+        description: 'Introduction to Algebra with solved examples',
+        fileUrl: 'https://drive.google.com/file/d/sample-math-pdf/view',
+        fileType: 'PDF',
         subject: subjects[0]._id,
         uploadedBy: staff._id,
-        class: '10'
+        class: '10',
+        section: 'A',
+        isNewMaterial: true
       },
       {
-        title: 'Physics Notes',
-        description: 'Newton Laws of Motion',
-        fileUrl: 'https://example.com/physics-notes.pdf',
+        title: 'Physics Video Lecture',
+        description: 'Newton Laws of Motion explained with animations',
+        fileUrl: 'https://youtube.com/watch?v=sample-physics-video',
+        fileType: 'Video',
         subject: subjects[1]._id,
         uploadedBy: staff._id,
-        class: '10'
+        class: '10',
+        section: 'All Sections',
+        isNewMaterial: true
+      },
+      {
+        title: 'Chemistry Lab Manual',
+        description: 'Complete lab procedures and safety guidelines',
+        fileUrl: 'https://drive.google.com/file/d/sample-chemistry-doc/view',
+        fileType: 'Document',
+        subject: subjects[2]._id,
+        uploadedBy: staff._id,
+        class: '10',
+        section: 'B',
+        isNewMaterial: true
+      },
+      {
+        title: 'English Grammar Reference',
+        description: 'Comprehensive grammar rules and exercises',
+        fileUrl: 'https://example.com/english-grammar.pdf',
+        fileType: 'PDF',
+        subject: subjects[3]._id,
+        uploadedBy: staff._id,
+        class: '10',
+        section: 'All Sections',
+        isNewMaterial: true
       }
     ]);
 

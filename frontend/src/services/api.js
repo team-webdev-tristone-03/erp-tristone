@@ -32,6 +32,14 @@ export const subjectAPI = {
   deleteSubject: (id) => API.delete(`/subjects/${id}`)
 };
 
+export const classAPI = {
+  getClasses: () => API.get('/classes'),
+  getClass: (id) => API.get(`/classes/${id}`),
+  createClass: (data) => API.post('/classes', data),
+  updateClass: (id, data) => API.put(`/classes/${id}`, data),
+  deleteClass: (id) => API.delete(`/classes/${id}`)
+};
+
 export const attendanceAPI = {
   getAttendance: (params) => API.get('/attendance', { params }),
   createAttendance: (data) => API.post('/attendance', data),
@@ -63,7 +71,9 @@ export const markAPI = {
 export const materialAPI = {
   getMaterials: (params) => API.get('/materials', { params }),
   createMaterial: (data) => API.post('/materials', data),
-  deleteMaterial: (id) => API.delete(`/materials/${id}`)
+  deleteMaterial: (id) => API.delete(`/materials/${id}`),
+  markMaterialAsViewed: (data) => API.post('/materials/mark-viewed', data),
+  getNewMaterialsCount: (params) => API.get('/materials/new-count', { params })
 };
 
 export const announcementAPI = {

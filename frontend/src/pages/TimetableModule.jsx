@@ -477,7 +477,7 @@ const TimetableModule = () => {
         <Navbar />
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">Timetable Managemen</h1>
+            <h1 className="text-2xl font-bold">Timetable Management</h1>
           </div>
 
           {/* Class Selection */}
