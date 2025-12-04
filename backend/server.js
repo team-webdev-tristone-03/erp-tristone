@@ -15,6 +15,7 @@ connectDB();
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 app.use((req, res, next) => {
   req.io = io;
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/subjects', require('./routes/subjectRoutes'));
+app.use('/api/classes', require('./routes/classRoutes'));
 app.use('/api/attendance', require('./routes/attendanceRoutes'));
 app.use('/api/marks', require('./routes/markRoutes'));
 app.use('/api/materials', require('./routes/materialRoutes'));

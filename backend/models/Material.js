@@ -7,7 +7,9 @@ const materialSchema = new mongoose.Schema({
   fileType: String,
   subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
   uploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  class: String
+  class: { type: String, required: true },
+  section: { type: String, required: true },
+  isNewMaterial: { type: Boolean, default: true }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Material', materialSchema);
