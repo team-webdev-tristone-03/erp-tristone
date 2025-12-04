@@ -19,6 +19,11 @@ import StudentAttendance from './pages/StudentAttendance';
 import StudentMaterials from './pages/StudentMaterials';
 import StudentTimetable from './pages/StudentTimetable';
 import StudentAnnouncements from './pages/StudentAnnouncements';
+import AdminTimetable from './pages/AdminTimetable';
+import AdminStudentTimetable from './pages/AdminStudentTimetable';
+import AdminStaffTimetable from './pages/AdminStaffTimetable';
+import StaffTimetable from './pages/StaffTimetable';
+import TimetableModule from './pages/TimetableModule';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
@@ -45,11 +50,15 @@ function App() {
         <Route path="/admin/attendance" element={<ProtectedRoute allowedRoles={['admin']}><AdminAttendance /></ProtectedRoute>} />
         <Route path="/admin/marks" element={<ProtectedRoute allowedRoles={['admin']}><AdminMarks /></ProtectedRoute>} />
         <Route path="/admin/announcements" element={<ProtectedRoute allowedRoles={['admin']}><AdminAnnouncements /></ProtectedRoute>} />
+        <Route path="/admin/student-timetable" element={<ProtectedRoute allowedRoles={['admin']}><AdminStudentTimetable /></ProtectedRoute>} />
+        <Route path="/admin/staff-timetable" element={<ProtectedRoute allowedRoles={['admin']}><AdminStaffTimetable /></ProtectedRoute>} />
+        <Route path="/admin/timetable-module" element={<ProtectedRoute allowedRoles={['admin']}><TimetableModule /></ProtectedRoute>} />
         
         <Route path="/staff" element={<ProtectedRoute allowedRoles={['staff']}><StaffDashboard /></ProtectedRoute>} />
         <Route path="/staff/marks" element={<ProtectedRoute allowedRoles={['staff']}><StaffMarks /></ProtectedRoute>} />
         <Route path="/staff/attendance" element={<ProtectedRoute allowedRoles={['staff']}><StaffAttendance /></ProtectedRoute>} />
         <Route path="/staff/materials" element={<ProtectedRoute allowedRoles={['staff']}><StaffMaterials /></ProtectedRoute>} />
+        <Route path="/staff/timetable" element={<ProtectedRoute allowedRoles={['staff']}><StaffTimetable /></ProtectedRoute>} />
         
         <Route path="/student" element={<ProtectedRoute allowedRoles={['student']}><StudentDashboard /></ProtectedRoute>} />
         <Route path="/student/marks" element={<ProtectedRoute allowedRoles={['student']}><StudentMarks /></ProtectedRoute>} />

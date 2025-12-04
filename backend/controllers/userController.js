@@ -3,6 +3,15 @@ const User = require('../models/User');
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
+    
+    // Emit real-time update for new student creation
+    if (user.role === 'student') {
+      req.io.emit('studentUpdate', {
+        studentId: user._id,
+        updatedData: user
+      });
+    }
+    
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -43,6 +52,15 @@ exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true }).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    // Emit real-time update for student profile changes
+    if (user.role === 'student') {
+      req.io.emit('studentUpdate', {
+        studentId: user._id,
+        updatedData: user
+      });
+    }
+    
     res.json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -53,6 +71,15 @@ exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
+    
+    // Emit real-time update for student deletion
+    if (user.role === 'student') {
+      req.io.emit('studentUpdate', {
+        studentId: user._id,
+        deleted: true
+      });
+    }
+    
     res.json({ message: 'User deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });

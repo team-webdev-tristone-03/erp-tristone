@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   dateOfBirth: Date,
   joiningDate: { type: Date, default: Date.now },
   subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }],
+  subject: String, // For staff - their teaching subject
   class: String,
   section: String,
   rollNumber: String,

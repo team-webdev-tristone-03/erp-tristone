@@ -1,14 +1,16 @@
 import { useState, useEffect, useContext } from 'react';
-import { Award, Calendar, TrendingUp } from 'lucide-react';
+import { Award, Calendar, TrendingUp, User } from 'lucide-react';
 import Card from '../components/Card';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import { dashboardAPI } from '../services/api';
 import { SocketContext } from '../context/SocketContext';
+import { AuthContext } from '../context/AuthContext';
 
 const StudentDashboard = () => {
   const [stats, setStats] = useState({});
   const socket = useContext(SocketContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     fetchStats();
@@ -18,12 +20,19 @@ const StudentDashboard = () => {
     if (socket) {
       socket.on('markUpdate', () => fetchStats());
       socket.on('attendanceUpdate', () => fetchStats());
+      socket.on('studentUpdate', (data) => {
+        if (data.studentId === user?.id) {
+          // Refresh user data when admin updates this student's profile
+          window.location.reload();
+        }
+      });
       return () => {
         socket.off('markUpdate');
         socket.off('attendanceUpdate');
+        socket.off('studentUpdate');
       };
     }
-  }, [socket]);
+  }, [socket, user]);
 
   const fetchStats = () => {
     dashboardAPI.getStudentStats().then(res => setStats(res.data));
@@ -35,7 +44,14 @@ const StudentDashboard = () => {
       <div className="flex-1 ml-64">
         <Navbar />
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-6">Student Dashboard</h1>
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold">Welcome, {user?.name}!</h1>
+            <div className="flex items-center gap-4 mt-2 text-gray-600">
+              <span>Class: {user?.class}</span>
+              <span>Roll No: {user?.rollNumber}</span>
+              <span>Email: {user?.email}</span>
+            </div>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card title="Attendance" value={`${stats.attendancePercentage || 0}%`} icon={Calendar} color="blue" />
