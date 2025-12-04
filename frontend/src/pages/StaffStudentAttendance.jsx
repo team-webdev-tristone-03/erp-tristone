@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Calendar, Users, Check, X } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
-import { studentAttendanceAPI, userAPI } from '../services/api';
+import { attendanceAPI, userAPI } from '../services/api';
 
 const StaffStudentAttendance = () => {
   const [students, setStudents] = useState([]);
@@ -34,7 +34,7 @@ const StaffStudentAttendance = () => {
 
   const fetchAttendance = async () => {
     try {
-      const res = await studentAttendanceAPI.getStudentAttendance({ 
+      const res = await attendanceAPI.getAttendance({ 
         date: selectedDate 
       });
       
@@ -64,10 +64,10 @@ const StaffStudentAttendance = () => {
     setLoading(true);
     try {
       if (attendanceRecords[studentId]) {
-        await studentAttendanceAPI.updateStudentAttendance(attendanceRecords[studentId], { status });
+        await attendanceAPI.updateAttendance(attendanceRecords[studentId], { status });
       } else {
         const student = students.find(s => s._id === studentId);
-        const newRecord = await studentAttendanceAPI.createStudentAttendance({
+        const newRecord = await attendanceAPI.createAttendance({
           student: studentId,
           studentName: student?.name,
           studentEmail: student?.email,

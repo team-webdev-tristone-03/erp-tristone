@@ -193,19 +193,19 @@ const StaffMaterials = () => {
   }
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="flex-1 ml-64">
+      <div className="flex-1 lg:ml-64 transition-all duration-300">
         <Navbar />
-        <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
+        <div className="p-4 lg:p-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 lg:mb-6 gap-4">
           <div>
-            <h1 className="text-2xl font-bold">Study Materials</h1>
-            <p className="text-gray-600">Upload and manage teaching materials for your classes</p>
+            <h1 className="text-xl lg:text-2xl font-bold">Study Materials</h1>
+            <p className="text-sm lg:text-base text-gray-600">Upload and manage teaching materials for your classes</p>
           </div>
           <button
             onClick={() => { resetForm(); setIsModalOpen(true); }}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 w-full sm:w-auto"
           >
             <Plus size={20} /> Upload Material
           </button>
@@ -213,8 +213,8 @@ const StaffMaterials = () => {
 
         {/* Search and Filters */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div className="relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="relative sm:col-span-2 lg:col-span-1">
               <Search className="absolute left-3 top-3 text-gray-400" size={16} />
               <input
                 type="text"
@@ -278,13 +278,17 @@ const StaffMaterials = () => {
           </div>
         )}
 
-        <div className="bg-white rounded-lg shadow-md">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
           <Table
             columns={columns}
             data={filteredMaterials}
             actions={(material) => (
-              <button onClick={() => handleDelete(material._id)} className="text-red-500 hover:text-red-700">
-                <Trash2 size={18} />
+              <button 
+                onClick={() => handleDelete(material._id)} 
+                className="text-red-500 hover:text-red-700 p-1 rounded"
+                title="Delete"
+              >
+                <Trash2 size={16} />
               </button>
             )}
           />
@@ -331,7 +335,7 @@ const StaffMaterials = () => {
               <p className="text-xs text-gray-500 mt-1">Supports: PDF, Images, Videos, Documents, Links</p>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Class *</label>
                 <select

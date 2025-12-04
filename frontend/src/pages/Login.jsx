@@ -39,16 +39,16 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-2">School ERP System</h1>
-        <p className="text-center text-gray-600 mb-6">Login to your account</p>
+      <div className="bg-white rounded-lg shadow-2xl p-6 lg:p-8 w-full max-w-md">
+        <h1 className="text-2xl lg:text-3xl font-bold text-center mb-2">School ERP System</h1>
+        <p className="text-center text-gray-600 mb-6 text-sm lg:text-base">Login to your account</p>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-1 lg:gap-2 mb-6">
           {['admin', 'staff', 'student'].map((r) => (
             <button
               key={r}
               onClick={() => setRole(r)}
-              className={`flex-1 py-2 rounded-lg font-medium transition ${
+              className={`flex-1 py-2 px-1 rounded-lg font-medium transition text-sm lg:text-base ${
                 role === r ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'
               }`}
             >
@@ -90,38 +90,38 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="mt-6 p-4 bg-gray-100 rounded">
-          <p className="font-semibold mb-3 text-sm">Use Demo Credentials:</p>
-          <div className="flex gap-2">
+        <div className="mt-6 p-3 lg:p-4 bg-gray-100 rounded">
+          <p className="font-semibold mb-3 text-xs lg:text-sm">Use Demo Credentials:</p>
+          <div className="flex gap-1 lg:gap-2">
             <button
               type="button"
               onClick={() => fillDemoCredentials('admin')}
-              className="flex-1 py-2 px-3 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
+              className="flex-1 py-2 px-2 lg:px-3 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition"
             >
               Admin
             </button>
             <button
               type="button"
               onClick={() => fillDemoCredentials('staff')}
-              className="flex-1 py-2 px-3 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
+              className="flex-1 py-2 px-2 lg:px-3 bg-green-500 text-white text-xs rounded hover:bg-green-600 transition"
             >
               Staff
             </button>
             <button
               type="button"
               onClick={() => fillDemoCredentials('student')}
-              className="flex-1 py-2 px-3 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition"
+              className="flex-1 py-2 px-2 lg:px-3 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition"
             >
               Student
             </button>
           </div>
         </div>
 
-        <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-xs">
+        <div className="mt-4 p-3 lg:p-4 bg-yellow-50 border border-yellow-200 rounded text-xs">
           <p className="font-semibold text-yellow-800 mb-2">⚠️ Getting "Cannot connect" error?</p>
           <p className="text-yellow-700">You need to start the backend server first!</p>
           <p className="text-yellow-700 mt-2">Open terminal and run:</p>
-          <code className="block bg-yellow-100 p-2 mt-1 rounded text-yellow-900">cd backend && npm run dev</code>
+          <code className="block bg-yellow-100 p-2 mt-1 rounded text-yellow-900 text-xs break-all">cd backend && npm run dev</code>
           <p className="text-yellow-700 mt-2 text-xs">See HOW_TO_FIX.md for detailed instructions</p>
         </div>
       </div>

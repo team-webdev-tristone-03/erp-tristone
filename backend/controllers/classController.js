@@ -1,76 +1,91 @@
 const Class = require('../models/Class');
 
-exports.createClass = async (req, res) => {
-  try {
-    const classData = await Class.create(req.body);
-    const populated = await classData.populate(['classTeacher', 'students']);
-    res.status(201).json(populated);
-  } catch (error) {
-    console.error('Error creating class:', error);
-    res.status(400).json({ message: error.message });
-  }
-};
-
 exports.getClasses = async (req, res) => {
   try {
-    const classes = await Class.find()
+    const classes = await Class.find({ isActive: true })
       .populate('classTeacher', 'name email')
-      .populate('students', 'name rollNumber')
-      .sort('-createdAt');
+      .sort({ className: 1, section: 1 });
+    
     res.json(classes);
   } catch (error) {
-    console.error('Error fetching classes:', error);
     res.status(500).json({ message: error.message });
   }
 };
 
-exports.getClass = async (req, res) => {
+exports.createClass = async (req, res) => {
   try {
-    const classData = await Class.findById(req.params.id)
-      .populate('classTeacher', 'name email')
-      .populate('students', 'name rollNumber email');
-    
-    if (!classData) {
-      return res.status(404).json({ message: 'Class not found' });
+    const classData = {
+      ...req.body,
+      className: req.body.className?.trim(),
+      classCode: req.body.classCode?.trim().toUpperCase(),
+      section: req.body.section?.trim()
+    };
+
+    const existingClass = await Class.findOne({
+      className: classData.className,
+      section: classData.section
+    });
+
+    if (existingClass) {
+      return res.status(400).json({ message: 'Class with this name and section already exists' });
     }
+
+    const newClass = await Class.create(classData);
+    const populatedClass = await Class.findById(newClass._id).populate('classTeacher', 'name email');
     
-    res.json(classData);
+    res.status(201).json(populatedClass);
   } catch (error) {
-    console.error('Error fetching class:', error);
-    res.status(500).json({ message: error.message });
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ message: messages.join(', ') });
+    }
+    res.status(400).json({ message: error.message });
   }
 };
 
 exports.updateClass = async (req, res) => {
   try {
-    const classData = await Class.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+    const updateData = {
+      ...req.body,
+      className: req.body.className?.trim(),
+      classCode: req.body.classCode?.trim().toUpperCase(),
+      section: req.body.section?.trim()
+    };
+
+    const updatedClass = await Class.findByIdAndUpdate(
+      req.params.id,
+      updateData,
       { new: true, runValidators: true }
-    ).populate(['classTeacher', 'students']);
-    
-    if (!classData) {
+    ).populate('classTeacher', 'name email');
+
+    if (!updatedClass) {
       return res.status(404).json({ message: 'Class not found' });
     }
-    
-    res.json(classData);
+
+    res.json(updatedClass);
   } catch (error) {
-    console.error('Error updating class:', error);
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({ message: messages.join(', ') });
+    }
     res.status(400).json({ message: error.message });
   }
 };
 
 exports.deleteClass = async (req, res) => {
   try {
-    const classData = await Class.findByIdAndDelete(req.params.id);
-    
-    if (!classData) {
+    const deletedClass = await Class.findByIdAndUpdate(
+      req.params.id,
+      { isActive: false },
+      { new: true }
+    );
+
+    if (!deletedClass) {
       return res.status(404).json({ message: 'Class not found' });
     }
-    
-    res.json({ message: 'Class deleted successfully' });
+
+    res.json({ message: 'Class deactivated successfully' });
   } catch (error) {
-    console.error('Error deleting class:', error);
     res.status(500).json({ message: error.message });
   }
 };

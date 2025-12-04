@@ -113,31 +113,35 @@ const StaffMarks = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="flex-1 ml-64">
+      <div className="flex-1 lg:ml-64 transition-all duration-300">
         <Navbar />
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+        <div className="p-4 lg:p-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 lg:mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-bold">Marks Management</h1>
-              <p className="text-gray-600">Add and manage student marks by class and section</p>
+              <h1 className="text-xl lg:text-2xl font-bold">Marks Management</h1>
+              <p className="text-sm lg:text-base text-gray-600">Add and manage student marks by class and section</p>
             </div>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 w-full sm:w-auto"
             >
               <Plus size={20} /> Add Marks
             </button>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <Table
               columns={columns}
               data={marks}
               actions={(mark) => (
-                <button onClick={() => openEditModal(mark)} className="text-blue-500 hover:text-blue-700">
-                  <Edit size={18} />
+                <button 
+                  onClick={() => openEditModal(mark)} 
+                  className="text-blue-500 hover:text-blue-700 p-1 rounded"
+                  title="Edit"
+                >
+                  <Edit size={16} />
                 </button>
               )}
             />

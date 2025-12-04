@@ -3,7 +3,7 @@ import { Calendar, TrendingUp, TrendingDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import Navbar from '../components/Navbar';
 import Table from '../components/Table';
-import { studentAttendanceAPI } from '../services/api';
+import { attendanceAPI } from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { SocketContext } from '../context/SocketContext';
 
@@ -32,7 +32,7 @@ const StudentAttendance = () => {
   const fetchAttendance = async () => {
     setLoading(true);
     try {
-      const res = await studentAttendanceAPI.getStudentAttendance({ student: user.id });
+      const res = await attendanceAPI.getAttendance({ student: user.id });
       setAttendance(res.data);
       
       // Calculate stats

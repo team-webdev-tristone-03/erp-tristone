@@ -9,12 +9,11 @@ import AdminSubjects from './pages/AdminSubjects';
 import AdminStudentAttendance from './pages/AdminStudentAttendance';
 import AdminStaffAttendance from './pages/AdminStaffAttendance';
 import AdminClasses from './pages/AdminClasses';
-import AdminAttendance from './pages/AdminAttendance';
 import AdminMarks from './pages/AdminMarks';
 import AdminAnnouncements from './pages/AdminAnnouncements';
 import StaffDashboard from './pages/StaffDashboard';
 import StaffMarks from './pages/StaffMarks';
-import StaffStudentAttendance from './pages/StaffStudentAttendance';
+import StaffAttendance from './pages/StaffAttendance';
 import StaffMaterials from './pages/StaffMaterials';
 import StaffAnnouncements from './pages/StaffAnnouncements';
 import StudentDashboard from './pages/StudentDashboard';
@@ -51,10 +50,9 @@ function App() {
         <Route path="/admin/students" element={<ProtectedRoute allowedRoles={['admin']}><AdminStudents /></ProtectedRoute>} />
         <Route path="/admin/staff" element={<ProtectedRoute allowedRoles={['admin']}><AdminStaff /></ProtectedRoute>} />
         <Route path="/admin/subjects" element={<ProtectedRoute allowedRoles={['admin']}><AdminSubjects /></ProtectedRoute>} />
+        <Route path="/admin/classes" element={<ProtectedRoute allowedRoles={['admin']}><AdminClasses /></ProtectedRoute>} />
         <Route path="/admin/attendance" element={<ProtectedRoute allowedRoles={['admin']}><AdminStudentAttendance /></ProtectedRoute>} />
         <Route path="/admin/staff-attendance" element={<ProtectedRoute allowedRoles={['admin']}><AdminStaffAttendance /></ProtectedRoute>} />
-        <Route path="/admin/classes" element={<ProtectedRoute allowedRoles={['admin']}><AdminClasses /></ProtectedRoute>} />
-        <Route path="/admin/attendance" element={<ProtectedRoute allowedRoles={['admin']}><AdminAttendance /></ProtectedRoute>} />
         <Route path="/admin/marks" element={<ProtectedRoute allowedRoles={['admin']}><AdminMarks /></ProtectedRoute>} />
         <Route path="/admin/announcements" element={<ProtectedRoute allowedRoles={['admin']}><AdminAnnouncements /></ProtectedRoute>} />
         <Route path="/admin/student-timetable" element={<ProtectedRoute allowedRoles={['admin']}><AdminStudentTimetable /></ProtectedRoute>} />
@@ -63,7 +61,7 @@ function App() {
         
         <Route path="/staff" element={<ProtectedRoute allowedRoles={['staff']}><StaffDashboard /></ProtectedRoute>} />
         <Route path="/staff/marks" element={<ProtectedRoute allowedRoles={['staff']}><StaffMarks /></ProtectedRoute>} />
-        <Route path="/staff/attendance" element={<ProtectedRoute allowedRoles={['staff']}><StaffStudentAttendance /></ProtectedRoute>} />
+        <Route path="/staff/attendance" element={<ProtectedRoute allowedRoles={['staff']}><StaffAttendance /></ProtectedRoute>} />
         <Route path="/staff/materials" element={<ProtectedRoute allowedRoles={['staff']}><StaffMaterials /></ProtectedRoute>} />
         <Route path="/staff/announcements" element={<ProtectedRoute allowedRoles={['staff']}><StaffAnnouncements /></ProtectedRoute>} />
         <Route path="/staff/timetable" element={<ProtectedRoute allowedRoles={['staff']}><StaffTimetable /></ProtectedRoute>} />

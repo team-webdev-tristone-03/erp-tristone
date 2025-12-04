@@ -1,16 +1,49 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'http://localhost:5000/api',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Request interceptor
+API.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
+
+// Response interceptor
+API.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // Handle specific error cases
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+
+    // Network error handling
+    if (error.code === 'ECONNABORTED') {
+      error.message = 'Request timeout. Please try again.';
+    } else if (error.code === 'ERR_NETWORK' || !error.response) {
+      error.message = 'Network error. Please check your connection and ensure the backend server is running.';
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export const authAPI = {
   login: (data) => API.post('/auth/login', data),
@@ -25,6 +58,13 @@ export const userAPI = {
   deleteUser: (id) => API.delete(`/users/${id}`)
 };
 
+export const classAPI = {
+  getClasses: () => API.get('/classes'),
+  createClass: (data) => API.post('/classes', data),
+  updateClass: (id, data) => API.put(`/classes/${id}`, data),
+  deleteClass: (id) => API.delete(`/classes/${id}`)
+};
+
 export const subjectAPI = {
   getSubjects: () => API.get('/subjects'),
   createSubject: (data) => API.post('/subjects', data),
@@ -32,26 +72,12 @@ export const subjectAPI = {
   deleteSubject: (id) => API.delete(`/subjects/${id}`)
 };
 
-export const classAPI = {
-  getClasses: () => API.get('/classes'),
-  getClass: (id) => API.get(`/classes/${id}`),
-  createClass: (data) => API.post('/classes', data),
-  updateClass: (id, data) => API.put(`/classes/${id}`, data),
-  deleteClass: (id) => API.delete(`/classes/${id}`)
-};
-
 export const attendanceAPI = {
   getAttendance: (params) => API.get('/attendance', { params }),
   createAttendance: (data) => API.post('/attendance', data),
   updateAttendance: (id, data) => API.put(`/attendance/${id}`, data),
-  deleteAttendance: (id) => API.delete(`/attendance/${id}`)
-};
-
-export const studentAttendanceAPI = {
-  getStudentAttendance: (params) => API.get('/student-attendance', { params }),
-  createStudentAttendance: (data) => API.post('/student-attendance', data),
-  updateStudentAttendance: (id, data) => API.put(`/student-attendance/${id}`, data),
-  deleteStudentAttendance: (id) => API.delete(`/student-attendance/${id}`)
+  deleteAttendance: (id) => API.delete(`/attendance/${id}`),
+  markBulkAttendance: (data) => API.post('/attendance/bulk', data)
 };
 
 export const staffAttendanceAPI = {
@@ -72,7 +98,6 @@ export const materialAPI = {
   getMaterials: (params) => API.get('/materials', { params }),
   createMaterial: (data) => API.post('/materials', data),
   deleteMaterial: (id) => API.delete(`/materials/${id}`),
-  markMaterialAsViewed: (data) => API.post('/materials/mark-viewed', data),
   getNewMaterialsCount: (params) => API.get('/materials/new-count', { params })
 };
 

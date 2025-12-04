@@ -74,25 +74,25 @@ const StaffAnnouncements = () => {
   const adminAnnouncements = announcements.filter(a => a.createdBy?._id !== user.id);
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="flex-1 ml-64">
+      <div className="flex-1 lg:ml-64 transition-all duration-300">
         <Navbar />
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+        <div className="p-4 lg:p-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 lg:mb-6 gap-4">
             <div>
-              <h1 className="text-2xl font-bold">Announcements</h1>
-              <p className="text-gray-600">Create announcements for students and view admin messages</p>
+              <h1 className="text-xl lg:text-2xl font-bold">Announcements</h1>
+              <p className="text-sm lg:text-base text-gray-600">Create announcements for students and view admin messages</p>
             </div>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 w-full sm:w-auto"
             >
               <Plus size={20} /> Create Announcement
             </button>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
             {/* My Announcements */}
             <div className="bg-white rounded-lg shadow-md">
               <div className="p-4 border-b">

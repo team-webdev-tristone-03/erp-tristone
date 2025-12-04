@@ -111,16 +111,16 @@ const AdminStudents = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen bg-gray-50">
       <Sidebar />
-      <div className="flex-1 ml-64">
+      <div className="flex-1 lg:ml-64 transition-all duration-300">
         <Navbar />
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold">Students Management</h1>
+        <div className="p-4 lg:p-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 lg:mb-6 gap-4">
+            <h1 className="text-xl lg:text-2xl font-bold">Students Management</h1>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-600"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-600 w-full sm:w-auto"
             >
               <Plus size={20} /> Add Student
             </button>
@@ -137,17 +137,23 @@ const AdminStudents = () => {
             />
           </div>
 
-          <div className="bg-white rounded-lg shadow-md">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
             <Table
               columns={columns}
               data={students}
               actions={(student) => (
-                <div className="flex gap-2">
-                  <button onClick={() => openEditModal(student)} className="text-blue-500 hover:text-blue-700">
-                    <Edit size={18} />
+                <div className="flex gap-1 lg:gap-2">
+                  <button 
+                    onClick={() => openEditModal(student)} 
+                    className="text-blue-500 hover:text-blue-700 p-1 rounded"
+                  >
+                    <Edit size={16} />
                   </button>
-                  <button onClick={() => handleDelete(student._id)} className="text-red-500 hover:text-red-700">
-                    <Trash2 size={18} />
+                  <button 
+                    onClick={() => handleDelete(student._id)} 
+                    className="text-red-500 hover:text-red-700 p-1 rounded"
+                  >
+                    <Trash2 size={16} />
                   </button>
                 </div>
               )}
