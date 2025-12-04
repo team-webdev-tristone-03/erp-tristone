@@ -39,6 +39,20 @@ export const attendanceAPI = {
   deleteAttendance: (id) => API.delete(`/attendance/${id}`)
 };
 
+export const studentAttendanceAPI = {
+  getStudentAttendance: (params) => API.get('/student-attendance', { params }),
+  createStudentAttendance: (data) => API.post('/student-attendance', data),
+  updateStudentAttendance: (id, data) => API.put(`/student-attendance/${id}`, data),
+  deleteStudentAttendance: (id) => API.delete(`/student-attendance/${id}`)
+};
+
+export const staffAttendanceAPI = {
+  getStaffAttendance: (params) => API.get('/staff-attendance', { params }),
+  createStaffAttendance: (data) => API.post('/staff-attendance', data),
+  updateStaffAttendance: (id, data) => API.put(`/staff-attendance/${id}`, data),
+  deleteStaffAttendance: (id) => API.delete(`/staff-attendance/${id}`)
+};
+
 export const markAPI = {
   getMarks: (params) => API.get('/marks', { params }),
   createMark: (data) => API.post('/marks', data),

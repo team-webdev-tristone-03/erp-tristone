@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const attendanceSchema = new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userType: { type: String, enum: ['student', 'staff'], required: true },
   date: { type: Date, required: true },
   status: { type: String, enum: ['present', 'absent', 'late'], required: true },
   subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },

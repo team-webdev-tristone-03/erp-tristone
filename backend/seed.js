@@ -44,38 +44,32 @@ const seedData = async () => {
       phone: '9876543210'
     });
 
-    // Create Students
-    const student1 = await User.create({
-      name: 'Alice Johnson',
-      email: 'student@school.com',
-      password: 'student123',
-      role: 'student',
-      class: '10',
-      section: 'A',
-      rollNumber: '101'
-    });
+    // Create Students for Class 10A and 10B
+    const studentsData = [
+      // Class 10A
+      { name: 'Alice Johnson', email: 'student@school.com', class: '10', section: 'A', rollNumber: '101' },
+      { name: 'Bob Smith', email: 'bob@school.com', class: '10', section: 'A', rollNumber: '102' },
+      { name: 'Carol Davis', email: 'carol@school.com', class: '10', section: 'A', rollNumber: '103' },
+      { name: 'David Wilson', email: 'david@school.com', class: '10', section: 'A', rollNumber: '104' },
+      { name: 'Emma Brown', email: 'emma@school.com', class: '10', section: 'A', rollNumber: '105' },
+      
+      // Class 10B
+      { name: 'Frank Miller', email: 'frank@school.com', class: '10', section: 'B', rollNumber: '201' },
+      { name: 'Grace Taylor', email: 'grace@school.com', class: '10', section: 'B', rollNumber: '202' },
+      { name: 'Henry Anderson', email: 'henry@school.com', class: '10', section: 'B', rollNumber: '203' },
+      { name: 'Ivy Thomas', email: 'ivy@school.com', class: '10', section: 'B', rollNumber: '204' },
+      { name: 'Jack Jackson', email: 'jack@school.com', class: '10', section: 'B', rollNumber: '205' }
+    ];
 
-    const student2 = await User.create({
-      name: 'Bob Smith',
-      email: 'bob@school.com',
-      password: 'student123',
-      role: 'student',
-      class: '10',
-      section: 'A',
-      rollNumber: '102'
-    });
-
-    const student3 = await User.create({
-      name: 'Charlie Brown',
-      email: 'charlie@school.com',
-      password: 'student123',
-      role: 'student',
-      class: '10',
-      section: 'B',
-      rollNumber: '103'
-    });
-
-    const students = [student1, student2, student3];
+    const students = [];
+    for (const studentData of studentsData) {
+      const student = await User.create({
+        ...studentData,
+        password: 'student123',
+        role: 'student'
+      });
+      students.push(student);
+    }
 
     // Create Subjects
     const subjects = await Subject.insertMany([
@@ -166,6 +160,9 @@ const seedData = async () => {
     console.log('Admin: admin@school.com / admin123');
     console.log('Staff: staff@school.com / staff123');
     console.log('Student: student@school.com / student123');
+    console.log('\nStudents created in:');
+    console.log('- Class 10A: 5 students');
+    console.log('- Class 10B: 5 students');
     
     process.exit(0);
   } catch (error) {

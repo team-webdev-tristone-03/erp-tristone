@@ -22,8 +22,13 @@ const TimetableModule = () => {
 
 
   useEffect(() => {
-    // Always fetch from database first, then merge with localStorage changes
-    fetchTimetablesFromDB();
+    // Load from localStorage first (your changes), then fallback to default
+    const savedTimetables = localStorage.getItem('timetables');
+    if (savedTimetables) {
+      setTimetables(JSON.parse(savedTimetables));
+    } else {
+      fetchTimetablesFromDB();
+    }
     
     const hardcodedStaff = [
       { id: '1', name: 'Rajesh Sharma', subject: 'Tamil' },
@@ -328,19 +333,10 @@ const TimetableModule = () => {
     
     setTimetables(updatedTimetables);
     
-    // Save only the changes to localStorage
-    const savedChanges = JSON.parse(localStorage.getItem('timetableChanges') || '{}');
-    if (!savedChanges[selectedClass]) savedChanges[selectedClass] = {};
-    if (!savedChanges[selectedClass][editingPeriod.day]) savedChanges[selectedClass][editingPeriod.day] = {};
+    // Save entire updated timetable to localStorage
+    localStorage.setItem('timetables', JSON.stringify(updatedTimetables));
     
-    savedChanges[selectedClass][editingPeriod.day][editingPeriod.period] = {
-      subject: selectedSubject,
-      staff: { name: staffMember.name }
-    };
-    
-    localStorage.setItem('timetableChanges', JSON.stringify(savedChanges));
-    
-    console.log('Updated and saved change:', savedChanges[selectedClass][editingPeriod.day][editingPeriod.period]);
+    console.log('Updated:', selectedSubject, '-', staffMember.name);
     
     setIsEditModalOpen(false);
     setEditingPeriod(null);

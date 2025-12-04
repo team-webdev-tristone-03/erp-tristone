@@ -12,7 +12,8 @@ const Sidebar = () => {
     { to: '/admin/students', icon: Users, label: 'Students' },
     { to: '/admin/staff', icon: Users, label: 'Staff' },
     { to: '/admin/subjects', icon: BookOpen, label: 'Subjects' },
-    { to: '/admin/attendance', icon: ClipboardList, label: 'Attendance' },
+    { to: '/admin/attendance', icon: ClipboardList, label: 'Student Attendance' },
+    { to: '/admin/staff-attendance', icon: ClipboardList, label: 'Staff Attendance' },
     { to: '/admin/marks', icon: Award, label: 'Marks' },
     { to: '/admin/timetable-module', icon: Calendar, label: 'Timetable Module' },
     { to: '/admin/announcements', icon: Bell, label: 'Announcements' }
@@ -20,7 +21,7 @@ const Sidebar = () => {
 
   const staffLinks = [
     { to: '/staff', icon: Home, label: 'Dashboard' },
-    { to: '/staff/attendance', icon: ClipboardList, label: 'Attendance' },
+    { to: '/staff/attendance', icon: ClipboardList, label: 'Student Attendance' },
     { to: '/staff/marks', icon: Award, label: 'Marks' },
     { to: '/staff/materials', icon: FileText, label: 'Materials' },
     { to: '/staff/timetable', icon: Calendar, label: 'My Timetable' }
