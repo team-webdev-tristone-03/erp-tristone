@@ -27,6 +27,8 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/subjects', require('./routes/subjectRoutes'));
 app.use('/api/classes', require('./routes/classRoutes'));
 app.use('/api/attendance', require('./routes/attendanceRoutes'));
+app.use('/api/student-attendance', require('./routes/studentAttendanceRoutes'));
+app.use('/api/staff-attendance', require('./routes/staffAttendanceRoutes'));
 app.use('/api/marks', require('./routes/markRoutes'));
 app.use('/api/materials', require('./routes/materialRoutes'));
 app.use('/api/announcements', require('./routes/announcementRoutes'));

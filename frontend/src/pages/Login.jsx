@@ -29,8 +29,8 @@ const Login = () => {
   const fillDemoCredentials = (demoRole) => {
     const credentials = {
       admin: { email: 'admin@school.com', password: 'admin123' },
-      staff: { email: 'staff@school.com', password: 'staff123' },
-      student: { email: 'student@school.com', password: 'student123' }
+      staff: { email: 'staff001@school.com', password: 'staff001' },
+      student: { email: 'student001@school.com', password: 'student001' }
     };
     setRole(demoRole);
     setEmail(credentials[demoRole].email);
