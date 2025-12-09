@@ -94,7 +94,8 @@ const seedData = async () => {
     const today = new Date();
     for (const student of students) {
       await Attendance.create({
-        student: student._id,
+        user: student._id,
+        userType: 'student',
         date: today,
         status: 'present',
         subject: subjects[0]._id
